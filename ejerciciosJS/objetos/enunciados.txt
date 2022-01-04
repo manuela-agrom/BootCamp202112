@@ -1,0 +1,2 @@
+1. Crear la función constructora del juego Adivina el Número.
+2. Crear la clase del juego Adivina el Número.

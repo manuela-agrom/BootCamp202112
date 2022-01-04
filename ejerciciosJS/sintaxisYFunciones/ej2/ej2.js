@@ -8,11 +8,11 @@ function getRandomNumber() {
 }
 
 let randomNumber = getRandomNumber();
-console.log(randomNumber);
+// console.log(randomNumber);
 
 function isCorrectNumber(number) {
     times++;
-    console.log(times);
+    // console.log(times);
     if (times<=10) {
         if (number === randomNumber)
             return "Numero encontrado"
