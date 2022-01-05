@@ -26,6 +26,10 @@ html, body, div, h1, output, section{
 #screen {
     border: 2px solid var(--dark-grey);
     padding: var(--space);
+    display: grid;
+    grid-template-rows: 2;
+    padding: var(--space);
+
 }
 
 /* #operation {} */
