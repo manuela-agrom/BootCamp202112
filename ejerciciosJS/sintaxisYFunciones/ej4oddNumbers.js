@@ -1,6 +1,6 @@
 // 4. Crear una función que devuelva un determinado número de números primos.
 
-function getEvenNumbers(totalEvenNumbers) {
+function getOddNumbers(totalEvenNumbers) {
     let evenNumbers = [];
     let number = 1;
 
@@ -10,4 +10,4 @@ function getEvenNumbers(totalEvenNumbers) {
     return evenNumbers;
 }
 
-getEvenNumbers(9)
+getOddNumbers(9);
