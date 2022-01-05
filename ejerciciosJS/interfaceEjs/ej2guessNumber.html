@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ej2 Magic Number</title>
+</head>
+<body>
+    <h1>Guess the number!</h1>
+    <output id="triesInfo"></output>
+    <input id="introducednumber" type="number">
+    <input type="button" id="confirm" value="Confirmar Número">
+    <!--<button type="submit" id="confirm">Confirmar Número</button>-->
+    <hr>
+    <output id="response"></output>
+    
+    <script type="module">
+        import {GameClass} from '../objetos/ej2guessNumberWithClass.js'
+        const response = document.querySelector('#response');
+        const confirm = document.querySelector('#confirm');
+        let introducedNumber = document.querySelector('#introducednumber');
+        let message, messageNode;
+        let game = new GameClass(10, 100);
+
+        confirm.addEventListener('click', ev => {
+            message = game.checkNumber(introducedNumber.value);
+            introducedNumber.value = "";
+            messageNode = document.createTextNode(message);
+            response.innerHTML = ""
+            response.appendChild(messageNode);
+        });
+
+    </script>
+</body>
+</html>
