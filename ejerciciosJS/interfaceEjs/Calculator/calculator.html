@@ -16,35 +16,39 @@
             <input type="text" id="ce" class="key" value="CE">
             <input type="text" id="c" class="key" value="C">
             <input type="text" class="key" value="<=">
-            <input type="text" class="key" value="/">
+            <input type="text" class="key operator" value="/">
             <input type="text" class="key number" value="7">
             <input type="text" class="key number" value="8">
             <input type="text" class="key  number" value="9">
-            <input type="text" class="key" value="*">
+            <input type="text" class="key operator" value="*">
             <input type="text" class="key  number" value="4">
             <input type="text" class="key  number" value="5">
             <input type="text" class="key  number" value="6">
-            <input type="text" class="key" value="-">
+            <input type="text" class="key operator" value="-">
             <input type="text" class="key  number" value="1">
             <input type="text" class="key  number" value="2">
             <input type="text" class="key  number" value="3">
-            <input type="text" class="key" value="+">
+            <input type="text" class="key operator" value="+">
             <input type="text" class="key" value="+/-">
             <input type="text" class="key  number" value="0">
             <input type="text" class="key" value=",">
             <input type="text" class="key" value="=">
         </section>
     </section>
-    <script>
+    <script type="module">
+        import {Calculator} from './calculator.js'
         const operation = document.querySelector('#operation')
         const clearOne = document.querySelector('#ce');
         const clearAll = document.querySelector('#c');
-        
+        let calculator = new Calculator();
+        let result;
         clearAll.addEventListener('click', ev => {
             operation.innerHTML = 0;
         })
-        document.querySelectorAll('.number').forEach(keyNumber => keyNumber.addEventListener('click', ev => {
-            operation.innerHTML = ev.target.value;
+        document.querySelectorAll('.key').forEach(keyNumber => keyNumber.addEventListener('click', ev => {
+            console.log(ev.target);
+            result = calculator.checkKey(ev.target.value);
+            operation.innerHTML = result;
         }) )
 
     </script>
