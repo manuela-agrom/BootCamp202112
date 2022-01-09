@@ -112,6 +112,19 @@ class Calculator {
     divide(number1, number2) {
         return number1/number2;
     }
+    introduceCommaSign() {
+        if (this.#currentNumber.includes('.')) {
+            console.warn('Comma sign is already present.');
+            return;
+        }
+        if (!this.#currentNumber) {
+            this.#currentNumber = '0.';
+        } else if (!this.#currentNumber.includes('.')) {
+            this.#currentNumber += '.'
+        }
+        this.#operationHistory += this.#currentNumber;
+        this.printCurrentNumber();
+    }
     printOperation() {
         // this.operationScreen = this.#operationHistory;
         if (typeof(this.operationPrinter) !== 'function') {
@@ -124,7 +137,11 @@ class Calculator {
         if (typeof(this.currentNumberPrinter) !== 'function') {
             return;
         }
-        this.currentNumberPrinter(this.#currentNumber);
+        if (this.#currentNumber) {
+            this.currentNumberPrinter(this.#currentNumber);
+        } else {
+            this.currentNumberPrinter('0');
+        }
     }
     checkIfNumber(key) {
         if (!/^\d$/.test(key)) {

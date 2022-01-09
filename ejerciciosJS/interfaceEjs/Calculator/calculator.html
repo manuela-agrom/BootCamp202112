@@ -32,7 +32,7 @@
             <input type="text" class="key operator" value="+">
             <input type="text" class="key" value="+/-">
             <input type="text" class="key  number" value="0">
-            <input type="text" class="key" value=",">
+            <input type="text" id="comma" class="key" value=",">
             <input type="text" class="key operator" value="=">
         </section>
     </section>
@@ -49,6 +49,7 @@
             console.log(currentNumber.textContent);
             const clearOne = document.querySelector('#ce');
             const clearAll = document.querySelector('#c');
+            const commaSign = document.querySelector('#comma');
             let calculator = new Calculator(
                 value => operation.textContent = value.replace(/\./, ','),
                 value => currentNumber.textContent = value.replace(/\./, ',')
@@ -67,7 +68,11 @@
             clearAll.addEventListener('click', ev => {
                 calculator.clearOperation();
             });
+            commaSign.addEventListener('click', ev => {
+                calculator.introduceCommaSign();
+            }
 
+            );
         })();
     </script>
 </body>
