@@ -8,6 +8,43 @@ export function guessNumber() {
     let introducedNumber;
     let timesTried = 0;
     let found = false;
+    const response = document.querySelector('#response');
+    const confirm = document.querySelector('#confirm');
+    const higher = document.createTextNode('Mi número es mayor.');
+    const smaller = document.createTextNode('Mi número es menor.');
+    const endRightNumber = document.createTextNode('Bieeen!!! Acertaste.');
+    const finishedGame = document.createTextNode('Ups! Se acabaron los intentos, el número era el ' + numberToFind);
+    
+    do {
+        timesTried++;
+        introducedNumber = response.value;
+        // introducedNumber = +prompt(`Introduce tu número (${timesTried} de 10 intentos) [${numberToFind}]:`); //"prompt()"" devuelve un string; "+prompt()" devuelve un number
+        if (numberToFind === introducedNumber) {
+            found = true;
+            break;
+        } else if (numberToFind > introducedNumber) {
+            response.appendChild(higher)
+        } else {
+            response.appendChild(smaller);
+        }
+    } while (timesTried < 10);
+    if (found) {
+        response.appendChild(rightNumber);
+    } else {
+        response.appendChild(finishedGame);
+    }
+    return found;
+
+    response.addEventListener('submit', guessNumber)
+
+}
+
+/* CORRECTED VERSION:
+export function guessNumber() {
+    let numberToFind = getRandomNumber(1, 100);
+    let introducedNumber;
+    let timesTried = 0;
+    let found = false;
     do {
         timesTried++;
         introducedNumber = +prompt(`Introduce tu número (${timesTried} de 10 intentos) [${numberToFind}]:`); //"prompt()"" devuelve un string; "+prompt()" devuelve un number
@@ -27,6 +64,7 @@ export function guessNumber() {
     }
     return found;
 }
+*/
 
 /* PREVIOUS VERSION:
 let times = 0;

@@ -1,90 +1,104 @@
-export class Calculator {
+class Calculator {
     #accumulated;
-    #auxSecondNumber;
-    #waitingSecondNumber;
-    #operation;
-    constructor() {
-        this.#accumulated = 0;
-        this.#auxSecondNumber = 0;
-        this.#waitingSecondNumber = false;
-        this.#operation = '+';
-    }
-    checkKey(key) {
-        let keyIsNumber = this.isNumber(key);
-        if (keyIsNumber) {
-            this.#auxSecondNumber = parseFloat(key);
-        } else {
-            this.operate();
-            this.#operation = key;
+    #operator;
+    #operationHistory;
+    #currentNumber;
+    constructor(funcOperation, funcCurrentNumber) {
+        if (funcOperation && typeof(funcOperation) !== 'function') {
+            throw new Error('To print the entire operation it is necessary to pass its function.');
         }
-
-        // if (keyIsNumber) {
-        //     if (!this.#waitingSecondNumber) {
-        //         this.#accumulated = parseFloat(this.#accumulated.toString().concat(key));
-        //     } else {
-        //         // this.#waitingSecondNumber = false;
-        //         this.#auxSecondNumber = parseFloat(this.#auxSecondNumber.toString().concat(key));
-        //         return this.#accumulated.toString().concat(' ', this.#operation).concat(' ', this.#auxSecondNumber)
-        //     }
-        // } else {
-        //     if (!this.#waitingSecondNumber) {
-        //         this.#waitingSecondNumber = true;
-        //         this.#operation = key;
-        //         console.log(this.#operation);
-        //         return this.#accumulated.toString().concat(' ', this.#operation)
-        //     } else {
-        //         switch (this.#operation) {
-        //             case '+':
-        //                 this.#accumulated = this.add(this.#accumulated,this.#auxSecondNumber);
-        //                 break;
-        //             case '-':
-        //                 this.#accumulated = this.subtract(this.#accumulated,this.#auxSecondNumber);
-        //                 break;
-        //             case '/':
-        //                 this.#accumulated = this.divide(this.#accumulated,this.#auxSecondNumber);
-        //                 break;
-        //             case '*':
-        //                 this.#accumulated = this.multiply(this.#accumulated,this.#auxSecondNumber);
-        //                 break;
-        //             default:
-        //                 break;
-        //         }
-        //         console.log(this.#accumulated);
-        //     }
-        // }
-        return this.#accumulated;
+        if (funcCurrentNumber && typeof(funcCurrentNumber) !== 'function') {
+            throw new Error('To print the current number it is necessary to pass its function.');
+        }
+        this.#accumulated = 0;
+        this.#operator = '+';
+        this.#operationHistory = '';
+        this.#currentNumber = '';
+        // this.operationScreen = '';
+        // this.currentNumberScreen = '0';
+        this.operationPrinter = funcOperation;
+        this.currentNumberPrinter = funcCurrentNumber;
+    }
+    initialize() {
+        this.#accumulated = 0;
+        this.#operator = '+';
+        this.#operationHistory = '';
+        this.#currentNumber = '';
     }
     clearOperation() {
-        this.#accumulated = 0;
-        this.#auxSecondNumber = 0;
+        this.initialize();
+        this.printOperation();
+        this.printCurrentNumber();
+    }
+    introduceNumber(number) {
+        if (typeof(number) !=='string') {
+            number = number.toString();
+        }
+        if (!this.checkIfNumber(number)) {
+            console.error('To calculate it is necessary to introduce numbers from 0 to 9.');
+            return;
+        }
+        // if (this.#accumulated === '0') {
+        //     this.#accumulated = number;
+        // } else {
+        //     this.#accumulated += number;
+        this.#currentNumber += number;
+        this.printCurrentNumber();
+        this.#operationHistory += (number + ' ');
+        this.printOperation();
+    }
+    introduceOperator(operator) {
+        if (!/^(\+|\-|\*|\/|\=)$/.test(operator)) {
+            console.error('To calculate it is necessary to use operators like "+","-", "*", "/" or equal sign "="');
+            return;
+        }
+        if (!this.#currentNumber) {
+            return;
+        }
+        // if (this.#accumulated !== '0') {
+        //     this.operate();
+        // }
+        this.operate();
+        if (operator === '=') {
+            this.#operationHistory += ('= ' + this.#accumulated);
+            this.printOperation();
+            // console.log('operation: ', this.#operationHistory);
+            this.#accumulated = 0;
+            this.#operationHistory = '';
+            this.#operator = '+';
+            this.initialize();
+        } else {
+            this.#operationHistory += (operator + ' ');
+            this.printOperation();
+            this.#operator = operator;
+            this.#currentNumber = '';
+        }
+        // this.printOperation();
+        this.printCurrentNumber();
     }
     operate() {
-        switch (this.#operation) {
+        const currentNumber = parseFloat(this.#currentNumber);
+        console.log('operate with: ', this.#accumulated, currentNumber);
+        switch (this.#operator) {
             case '+':
-                this.#accumulated = this.add(this.#accumulated,this.#auxSecondNumber);
+                this.#accumulated = this.add(this.#accumulated,currentNumber);
                 break;
             case '-':
-                this.#accumulated = this.subtract(this.#accumulated,this.#auxSecondNumber);
+                this.#accumulated = this.subtract(this.#accumulated,currentNumber);
                 break;
             case '*':
-                this.#accumulated = this.multiply(this.#accumulated,this.#auxSecondNumber);
+                this.#accumulated = this.multiply(this.#accumulated,currentNumber);
                 break;
             case '/':
-                this.#accumulated = this.divide(this.#accumulated,this.#auxSecondNumber);
+                this.#accumulated = this.divide(this.#accumulated,currentNumber);
                 break;
             default:
-                // this.#accumulated = this.add(this.#accumulated,this.#auxSecondNumber);
                 break;
         }
-        this.#auxSecondNumber = 0;
-    }
-    isNumber(key) {
-        // if (typeof(key) === 'number') {
-        //     return true;
-        // }
-        // return false;
-        let isNumber = isNaN(parseInt(key));
-        return !isNumber;
+        // this.#accumulated = this.acc.toString();
+        // this.#currentNumber = '';
+        // console.log(this.#accumulated);
+        // this.#operationsMade = this.#accumulated;
     }
     add(number1, number2) {
         return number1 + number2;
@@ -98,7 +112,30 @@ export class Calculator {
     divide(number1, number2) {
         return number1/number2;
     }
-
-
-
+    printOperation() {
+        // this.operationScreen = this.#operationHistory;
+        if (typeof(this.operationPrinter) !== 'function') {
+            return;
+        }
+        this.operationPrinter(this.#operationHistory);
+    }
+    printCurrentNumber() {
+        // this.currentNumberScreen = this.#currentNumber;
+        if (typeof(this.currentNumberPrinter) !== 'function') {
+            return;
+        }
+        this.currentNumberPrinter(this.#currentNumber);
+    }
+    checkIfNumber(key) {
+        if (!/^\d$/.test(key)) {
+            return false;
+        }
+        return true;
+    }
+    printVars() {
+        console.log('this.#operationHistory: ' + this.#operationHistory);
+        console.log('this.#currentNumber: ' + this.#currentNumber); //current
+        console.log('this.#accumulated: ' + this.#accumulated); //previous
+        console.log('this.#operator: ' + this.#operator);
+    }
 }

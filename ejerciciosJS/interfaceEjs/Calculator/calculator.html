@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" value="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link rel="stylesheet" href="calculator.css">
 </head>
@@ -10,8 +10,8 @@
     <h1>Calculator</h1>
     <section class="calculator">
         <section id="screen">
-            <output id="operation">0</output>
-            <output id="actualNumber">0</output>
+            <output id="operation" class="operation">0</output>
+            <output id="currentNumber" class="currentNumber">0</output>
         </section>
         <section id="keyboard">
             <input type="text" id="ce" class="key" value="CE">
@@ -36,24 +36,39 @@
             <input type="text" class="key operator" value="=">
         </section>
     </section>
-    <script type="module">
-        import {Calculator} from './calculator.js'
-        const operation = document.querySelector('#operation')
-        const actualNumber = document.querySelector('#actualNumber')
-        const clearOne = document.querySelector('#ce');
-        const clearAll = document.querySelector('#c');
-        let calculator = new Calculator();
-        let result;
-        clearAll.addEventListener('click', ev => {
-            operation.innerHTML = 0;
-            calculator.clearOperation();
-        })
-        document.querySelectorAll('.number, .operator').forEach(keyNumber => keyNumber.addEventListener('click', ev => {
-            console.log(ev.target);
-            result = calculator.checkKey(ev.target.value);
-            actualNumber.innerHTML = result;
-        }) )
+    <!-- <script type="module">
+        import Calculator from './calculator.js';
+    </script> -->
+    <script src="./calculator.js"></script>
+    <script>
+        (function() {
+            const operation = document.querySelector('#operation');
+            console.log(operation);
+            console.log(operation.textContent);
+            const currentNumber = document.querySelector('#currentNumber');
+            console.log(currentNumber.textContent);
+            const clearOne = document.querySelector('#ce');
+            const clearAll = document.querySelector('#c');
+            let calculator = new Calculator(
+                value => operation.textContent = value.replace(/\./, ','),
+                value => currentNumber.textContent = value.replace(/\./, ',')
+            );
+            document.querySelectorAll('.number').forEach(keyNumber => keyNumber.addEventListener('click', ev => {
+                console.log(ev.target);
+                calculator.introduceNumber(ev.target.value);
+                calculator.printVars();
+                })
+            );
+            document.querySelectorAll('.operator').forEach(keyOperator => keyOperator.addEventListener('click', ev => {
+                console.log(ev.target);
+                calculator.introduceOperator(ev.target.value);
+                calculator.printVars();
+            }));
+            clearAll.addEventListener('click', ev => {
+                calculator.clearOperation();
+            });
 
+        })();
     </script>
 </body>
 </html>
