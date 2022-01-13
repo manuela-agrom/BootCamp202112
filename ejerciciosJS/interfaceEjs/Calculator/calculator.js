@@ -125,15 +125,26 @@ class Calculator {
         this.#operationHistory += this.#currentNumber;
         this.printCurrentNumber();
     }
+    /* TODO:
+    clearNChar(n) {
+        this.#currentNumber = this.#currentNumber.slice(0, this.#currentNumber.length-n);
+    }
+    clearNumber() {
+        this.clearNChar(this.#currentNumber.length);
+    }
+    changeSign() {
+        this.#currentNumber = (-this.#currentNumber).toString();
+        this.#operationHistory = this.#currentNumber;
+        this.printCurrentNumber();
+    }
+    */
     printOperation() {
-        // this.operationScreen = this.#operationHistory;
         if (typeof(this.operationPrinter) !== 'function') {
             return;
         }
         this.operationPrinter(this.#operationHistory);
     }
     printCurrentNumber() {
-        // this.currentNumberScreen = this.#currentNumber;
         if (typeof(this.currentNumberPrinter) !== 'function') {
             return;
         }

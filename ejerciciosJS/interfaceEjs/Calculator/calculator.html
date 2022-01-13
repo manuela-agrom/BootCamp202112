@@ -14,9 +14,11 @@
             <output id="currentNumber" class="currentNumber">0</output>
         </section>
         <section id="keyboard">
-            <input type="text" id="ce" class="key" value="CE">
+            <input type="text" id="ce" class="key" value="">
+            <!-- <input type="text" id="ce" class="key" value="CE"> -->
             <input type="text" id="c" class="key" value="C">
-            <input type="text" class="key" value="<=">
+            <input type="text" id="clearOne" class="key" value="">
+            <!-- TODO: <input type="text" id="clearOne" class="key" value="<="> -->
             <input type="text" class="key operator" value="/">
             <input type="text" class="key number" value="7">
             <input type="text" class="key number" value="8">
@@ -30,7 +32,8 @@
             <input type="text" class="key  number" value="2">
             <input type="text" class="key  number" value="3">
             <input type="text" class="key operator" value="+">
-            <input type="text" class="key" value="+/-">
+            <!-- TODO: <input type="text" id="changeSign" class="key" value="+/-"> -->
+            <input type="text" id="changeSign" class="key" value="">
             <input type="text" class="key  number" value="0">
             <input type="text" id="comma" class="key" value=",">
             <input type="text" class="key operator" value="=">
@@ -47,9 +50,11 @@
             console.log(operation.textContent);
             const currentNumber = document.querySelector('#currentNumber');
             console.log(currentNumber.textContent);
-            const clearOne = document.querySelector('#ce');
             const clearAll = document.querySelector('#c');
+            const clearNumber = document.querySelector('#ce');
+            const clearOne = document.querySelector('#clearOne');
             const commaSign = document.querySelector('#comma');
+            const changeSign = document.querySelector('#changeSign');
             let calculator = new Calculator(
                 value => operation.textContent = value.replace(/\./, ','),
                 value => currentNumber.textContent = value.replace(/\./, ',')
@@ -70,9 +75,15 @@
             });
             commaSign.addEventListener('click', ev => {
                 calculator.introduceCommaSign();
-            }
-
-            );
+            });
+            /* TODO:
+            clearNumber.addEventListener('click', ev => {
+                calculator.clearNChar();
+            });
+            changeSign.addEventListener('click', ev => {
+                calculator.changeSign();
+            });
+            */
         })();
     </script>
 </body>
