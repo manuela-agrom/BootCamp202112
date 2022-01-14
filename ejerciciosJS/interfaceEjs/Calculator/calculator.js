@@ -13,9 +13,7 @@ class Calculator {
         this.#accumulated = 0;
         this.#operator = '+';
         this.#operationHistory = '';
-        this.#currentNumber = '';
-        // this.operationScreen = '';
-        // this.currentNumberScreen = '0';
+        this.#currentNumber = '0';
         this.operationPrinter = funcOperation;
         this.currentNumberPrinter = funcCurrentNumber;
     }
@@ -23,7 +21,7 @@ class Calculator {
         this.#accumulated = 0;
         this.#operator = '+';
         this.#operationHistory = '';
-        this.#currentNumber = '';
+        this.#currentNumber = '0';
     }
     clearOperation() {
         this.initialize();
@@ -38,13 +36,12 @@ class Calculator {
             console.error('To calculate it is necessary to introduce numbers from 0 to 9.');
             return;
         }
-        // if (this.#accumulated === '0') {
-        //     this.#accumulated = number;
-        // } else {
-        //     this.#accumulated += number;
+        if (this.#currentNumber === '0') {
+            this.#currentNumber = '';
+        }
         this.#currentNumber += number;
         this.printCurrentNumber();
-        this.#operationHistory += (number + ' ');
+        this.#operationHistory += number;
         this.printOperation();
     }
     introduceOperator(operator) {
@@ -55,26 +52,20 @@ class Calculator {
         if (!this.#currentNumber) {
             return;
         }
-        // if (this.#accumulated !== '0') {
-        //     this.operate();
-        // }
         this.operate();
+        this.#operationHistory += operator;
+        this.printOperation();
         if (operator === '=') {
-            this.#operationHistory += ('= ' + this.#accumulated);
-            this.printOperation();
-            // console.log('operation: ', this.#operationHistory);
+            this.#currentNumber = this.#accumulated.toString();
+            this.printCurrentNumber();
+            this.#operationHistory = this.#accumulated.toString();
             this.#accumulated = 0;
-            this.#operationHistory = '';
             this.#operator = '+';
-            this.initialize();
         } else {
-            this.#operationHistory += (operator + ' ');
-            this.printOperation();
+            this.#currentNumber = '0';
+            this.printCurrentNumber();
             this.#operator = operator;
-            this.#currentNumber = '';
         }
-        // this.printOperation();
-        this.printCurrentNumber();
     }
     operate() {
         const currentNumber = parseFloat(this.#currentNumber);
@@ -95,10 +86,6 @@ class Calculator {
             default:
                 break;
         }
-        // this.#accumulated = this.acc.toString();
-        // this.#currentNumber = '';
-        // console.log(this.#accumulated);
-        // this.#operationsMade = this.#accumulated;
     }
     add(number1, number2) {
         return number1 + number2;
@@ -148,11 +135,7 @@ class Calculator {
         if (typeof(this.currentNumberPrinter) !== 'function') {
             return;
         }
-        if (this.#currentNumber) {
-            this.currentNumberPrinter(this.#currentNumber);
-        } else {
-            this.currentNumberPrinter('0');
-        }
+        this.currentNumberPrinter(this.#currentNumber);
     }
     checkIfNumber(key) {
         if (!/^\d$/.test(key)) {
@@ -162,8 +145,8 @@ class Calculator {
     }
     printVars() {
         console.log('this.#operationHistory: ' + this.#operationHistory);
-        console.log('this.#currentNumber: ' + this.#currentNumber); //current
-        console.log('this.#accumulated: ' + this.#accumulated); //previous
+        console.log('this.#currentNumber: ' + this.#currentNumber);
+        console.log('this.#accumulated: ' + this.#accumulated);
         console.log('this.#operator: ' + this.#operator);
     }
 }

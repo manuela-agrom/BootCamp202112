@@ -56,8 +56,8 @@
             const commaSign = document.querySelector('#comma');
             const changeSign = document.querySelector('#changeSign');
             let calculator = new Calculator(
-                value => operation.textContent = value.replace(/\./, ','),
-                value => currentNumber.textContent = value.replace(/\./, ',')
+                (value => operation.textContent = value.replace(/\./, ',')),
+                (value => currentNumber.textContent = value.replace('/\./', ','))
             );
             document.querySelectorAll('.number').forEach(keyNumber => keyNumber.addEventListener('click', ev => {
                 console.log(ev.target);
