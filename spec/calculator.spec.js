@@ -26,8 +26,7 @@ describe(`Tests Calculator`, () => {
     });
     describe('Key inputs', () => {
         beforeAll(() => {
-            let rsltOperation = null;
-            calc = new Calculator((value=>{rsltOperation = value}), (value=>{rsltCurrentNumber = value}));
+            calc = new Calculator(new Function(), new Function());
         });
         describe('Numbers', () => {
             describe('OK', () => {
@@ -92,5 +91,29 @@ describe(`Tests Calculator`, () => {
                 });
             });
         })
+    });
+    describe('Actions concatenated', () => {
+        describe('OK', () => {
+            it('Number with more than one digit', () => {
+                let rsltOperation = null;
+                let rsltCurrentNumber = null;
+                calc = new Calculator((value=>{rsltOperation = value}), (value=>{rsltCurrentNumber = value}));
+                calc.introduceNumber('1');
+                expect(rsltCurrentNumber).toBe('1');
+                expect(rsltOperation).toBe('1');
+                calc.introduceNumber('2');
+                expect(rsltCurrentNumber).toBe('12');
+                expect(rsltOperation).toBe('12');
+                calc.introduceNumber('3');
+                expect(rsltCurrentNumber).toBe('123');
+                expect(rsltOperation).toBe('123');
+                calc.introduceNumber('4');
+                expect(rsltCurrentNumber).toBe('1234');
+                expect(rsltOperation).toBe('1234');
+                calc.introduceNumber('5');
+                expect(rsltCurrentNumber).toBe('12345');
+                expect(rsltOperation).toBe('12345');
+            });
+        });
     });
 });
