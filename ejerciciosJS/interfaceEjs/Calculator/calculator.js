@@ -113,8 +113,11 @@ class Calculator {
         this.printCurrentNumber();
     }
     /* TODO:
-    clearNChar(n) {
-        this.#currentNumber = this.#currentNumber.slice(0, this.#currentNumber.length-n);
+    clearOne(n) {
+        this.#operationHistory = this.#operationHistory.slice(0,-1);
+        this.printOperation();
+        this.#currentNumber = this.#currentNumber.slice(0,-1)
+        this.printCurrentNumber();
     }
     clearNumber() {
         this.clearNChar(this.#currentNumber.length);

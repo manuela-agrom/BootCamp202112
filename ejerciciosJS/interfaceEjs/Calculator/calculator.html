@@ -17,8 +17,7 @@
             <input type="text" id="ce" class="key" value="">
             <!-- <input type="text" id="ce" class="key" value="CE"> -->
             <input type="text" id="c" class="key" value="C">
-            <input type="text" id="clearOne" class="key" value="">
-            <!-- TODO: <input type="text" id="clearOne" class="key" value="<="> -->
+            <input type="text" id="clearOne" class="key" value="<==">
             <input type="text" class="key operator" value="/">
             <input type="text" class="key number" value="7">
             <input type="text" class="key number" value="8">
@@ -46,10 +45,7 @@
     <script>
         (function() {
             const operation = document.querySelector('#operation');
-            console.log(operation);
-            console.log(operation.textContent);
             const currentNumber = document.querySelector('#currentNumber');
-            console.log(currentNumber.textContent);
             const clearAll = document.querySelector('#c');
             const clearNumber = document.querySelector('#ce');
             const clearOne = document.querySelector('#clearOne');
@@ -60,13 +56,11 @@
                 (value => currentNumber.textContent = value.replace('/\./', ','))
             );
             document.querySelectorAll('.number').forEach(keyNumber => keyNumber.addEventListener('click', ev => {
-                console.log(ev.target);
                 calculator.introduceNumber(ev.target.value);
                 calculator.printVars();
                 })
             );
             document.querySelectorAll('.operator').forEach(keyOperator => keyOperator.addEventListener('click', ev => {
-                console.log(ev.target);
                 calculator.introduceOperator(ev.target.value);
                 calculator.printVars();
             }));
@@ -77,8 +71,8 @@
                 calculator.introduceCommaSign();
             });
             /* TODO:
-            clearNumber.addEventListener('click', ev => {
-                calculator.clearNChar();
+            clearOne.addEventListener('click', ev => {
+                calculator.clearOne();
             });
             changeSign.addEventListener('click', ev => {
                 calculator.changeSign();
