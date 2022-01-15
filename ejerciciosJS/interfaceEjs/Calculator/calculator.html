@@ -10,14 +10,15 @@
     <h1>Calculator</h1>
     <section class="calculator">
         <section id="screen">
-            <output id="operation" class="operation">0</output>
-            <output id="currentNumber" class="currentNumber">0</output>
+            <output id="operation" class="operation"></output>
+            <output id="currentNumber" class="currentNumber"></output>
         </section>
         <section id="keyboard">
             <input type="text" id="ce" class="key" value="">
             <!-- <input type="text" id="ce" class="key" value="CE"> -->
             <input type="text" id="c" class="key" value="C">
-            <input type="text" id="clearOne" class="key" value="<==">
+            <input type="text" id="clearOne" class="key" value="">
+            <!-- <input type="text" id="clearOne" class="key" value="<=="> -->
             <input type="text" class="key operator" value="/">
             <input type="text" class="key number" value="7">
             <input type="text" class="key number" value="8">
@@ -31,16 +32,14 @@
             <input type="text" class="key  number" value="2">
             <input type="text" class="key  number" value="3">
             <input type="text" class="key operator" value="+">
-            <!-- TODO: <input type="text" id="changeSign" class="key" value="+/-"> -->
             <input type="text" id="changeSign" class="key" value="">
+            <!-- TODO: <input type="text" id="changeSign" class="key" value="+/-"> -->
             <input type="text" class="key  number" value="0">
-            <input type="text" id="comma" class="key" value=",">
+            <input type="text" id="comma" class="key" value="">
+            <!-- <input type="text" id="comma" class="key" value=","> -->
             <input type="text" class="key operator" value="=">
         </section>
     </section>
-    <!-- <script type="module">
-        import Calculator from './calculator.js';
-    </script> -->
     <script src="./calculator.js"></script>
     <script>
         (function() {
@@ -57,22 +56,22 @@
             );
             document.querySelectorAll('.number').forEach(keyNumber => keyNumber.addEventListener('click', ev => {
                 calculator.introduceNumber(ev.target.value);
-                calculator.printVars();
+                // calculator.printVars();
                 })
             );
             document.querySelectorAll('.operator').forEach(keyOperator => keyOperator.addEventListener('click', ev => {
                 calculator.introduceOperator(ev.target.value);
-                calculator.printVars();
+                // calculator.printVars();
             }));
             clearAll.addEventListener('click', ev => {
                 calculator.clearOperation();
             });
-            commaSign.addEventListener('click', ev => {
-                calculator.introduceCommaSign();
-            });
             /* TODO:
             clearOne.addEventListener('click', ev => {
                 calculator.clearOne();
+            });
+            commaSign.addEventListener('click', ev => {
+                calculator.introduceCommaSign();
             });
             changeSign.addEventListener('click', ev => {
                 calculator.changeSign();

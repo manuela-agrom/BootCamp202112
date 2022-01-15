@@ -4,18 +4,19 @@ class Calculator {
     #operationHistory;
     #currentNumber;
     constructor(funcOperation, funcCurrentNumber) {
-        if (funcOperation && typeof(funcOperation) !== 'function') {
+        if (funcOperation === undefined || !funcCurrentNumber === undefined) {
+            throw new Error('To use the calculator it is necessary to pass the two printer functions for the entire operation and the current number, respectively.')
+        }
+        if (typeof(funcOperation) !== 'function') {
             throw new Error('To print the entire operation it is necessary to pass its function.');
         }
-        if (funcCurrentNumber && typeof(funcCurrentNumber) !== 'function') {
+        if (typeof(funcCurrentNumber) !== 'function') {
             throw new Error('To print the current number it is necessary to pass its function.');
         }
-        this.#accumulated = 0;
-        this.#operator = '+';
-        this.#operationHistory = '';
-        this.#currentNumber = '0';
         this.operationPrinter = funcOperation;
         this.currentNumberPrinter = funcCurrentNumber;
+        this.clearOperation();
+
     }
     initialize() {
         this.#accumulated = 0;
@@ -29,6 +30,9 @@ class Calculator {
         this.printCurrentNumber();
     }
     introduceNumber(number) {
+        if(number === undefined) {
+            throw new Error('Number argument is missing.')
+        }
         if (typeof(number) !=='string') {
             number = number.toString();
         }
@@ -45,6 +49,9 @@ class Calculator {
         this.printOperation();
     }
     introduceOperator(operator) {
+        if(operator === undefined) {
+            throw new Error('Operator argument is missing.')
+        }
         if (!/^(\+|\-|\*|\/|\=)$/.test(operator)) {
             console.error('To calculate it is necessary to use operators like "+","-", "*", "/" or equal sign "="');
             return;
@@ -99,6 +106,13 @@ class Calculator {
     divide(number1, number2) {
         return number1/number2;
     }
+    /* TODO:
+    clearOne(n) {
+        this.#operationHistory = this.#operationHistory.slice(0,-1);
+        this.printOperation();
+        this.#currentNumber = this.#currentNumber.slice(0,-1)
+        this.printCurrentNumber();
+    }
     introduceCommaSign() {
         if (this.#currentNumber.includes('.')) {
             console.warn('Comma sign is already present.');
@@ -111,16 +125,6 @@ class Calculator {
         }
         this.#operationHistory += this.#currentNumber;
         this.printCurrentNumber();
-    }
-    /* TODO:
-    clearOne(n) {
-        this.#operationHistory = this.#operationHistory.slice(0,-1);
-        this.printOperation();
-        this.#currentNumber = this.#currentNumber.slice(0,-1)
-        this.printCurrentNumber();
-    }
-    clearNumber() {
-        this.clearNChar(this.#currentNumber.length);
     }
     changeSign() {
         this.#currentNumber = (-this.#currentNumber).toString();
@@ -141,15 +145,9 @@ class Calculator {
         this.currentNumberPrinter(this.#currentNumber);
     }
     checkIfNumber(key) {
-        if (!/^\d$/.test(key)) {
+        if (key.length != 1 || !/^\d$/.test(key)) {
             return false;
         }
         return true;
-    }
-    printVars() {
-        console.log('this.#operationHistory: ' + this.#operationHistory);
-        console.log('this.#currentNumber: ' + this.#currentNumber);
-        console.log('this.#accumulated: ' + this.#accumulated);
-        console.log('this.#operator: ' + this.#operator);
     }
 }
