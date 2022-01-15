@@ -11,11 +11,15 @@ import { CommonServicesModule } from './common-services';
 import { MainModule } from './main';
 import { SecurityModule } from './security';
 import { DemosComponent } from './demos/demos.component';
+import { CalculatorComponent } from './calculator/calculator.component';
+import { DinamicoComponent } from './dinamico/dinamico.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DemosComponent,
+    CalculatorComponent,
+    DinamicoComponent,
   ],
   imports: [
     BrowserModule,
