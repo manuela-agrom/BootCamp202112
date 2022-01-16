@@ -114,6 +114,31 @@ describe(`Tests Calculator`, () => {
                 expect(rsltCurrentNumber).toBe('12345');
                 expect(rsltOperation).toBe('12345');
             });
+            describe('- Simple operation:', () => {
+                beforeEach(() => {
+                    calc = new Calculator((value=>{rsltOperation = value}), (value=>{rsltCurrentNumber = value}));
+                });
+                describe('Integer numbers', () => {
+                    [
+                        { number1: '1', operator: '+', number2: '1', rsltCurrentNumber: '2', rsltOperation: '1+1=' },
+                        { number1: '1', operator: '-', number2: '1', rsltCurrentNumber: '0', rsltOperation: '1-1=' },
+                        { number1: '1', operator: '*', number2: '1', rsltCurrentNumber: '1', rsltOperation: '1*1=' },
+                        { number1: '4', operator: '/', number2: '2', rsltCurrentNumber: '2', rsltOperation: '4/2=' },
+                    ].forEach(item => {
+                        it(`${item.number1} ${item.operator} ${item.number2} => ${item.rsltCurrentNumber}`, () => {
+                            calc.introduceNumber(item.number1);
+                            calc.introduceOperator(item.operator);
+                            calc.introduceNumber(item.number2);
+                            calc.introduceOperator('=');
+                            console.log('rsltCurrentNumber: ', rsltCurrentNumber);
+                            expect(rsltCurrentNumber).toBeDefined();
+                            expect(rsltCurrentNumber).toBe(item.rsltCurrentNumber);
+                            expect(rsltOperation).toBe(item.rsltOperation);
+                        });
+                    });
+                });
+                });
+            });
         });
     });
 });
