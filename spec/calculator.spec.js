@@ -258,6 +258,22 @@ describe(`Tests Calculator`, () => {
                     expect(rsltOperation).toBe('2-1=');
                 });
                 // TODO: comprobar que se borra la coma decimal
+                it('Erase comma sign and continue: INPUTS = [ 2, "Comma(,)", "Erase", 1, "Subtract(-)", 2, 1, "Comma(,)", 5, "=" ] ==> OUTPUTS: [ "21-21.5=", -0.5 ]', () => {
+                    calc.introduceNumber('2');
+                    calc.introduceCommaSign();
+                    calc.clearOne();
+                    calc.introduceNumber('1');
+                    expect(rsltCurrentNumber).toBe('21');
+                    expect(rsltOperation).toBe('21');
+                    calc.introduceOperator('-');
+                    calc.introduceNumber('2');
+                    calc.introduceNumber('1');
+                    calc.introduceCommaSign();
+                    calc.introduceNumber('5');
+                    calc.introduceOperator('=');
+                    expect(rsltCurrentNumber).toBe('-0.5');
+                    expect(rsltOperation).toBe('21-21.5=');
+                });
             });
         });
     });
