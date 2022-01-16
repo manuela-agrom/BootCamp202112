@@ -114,10 +114,10 @@ describe(`Tests Calculator`, () => {
             expect(rsltOperation).toBe('12345');
         });
         describe('- Simple operations:', () => {
-            beforeEach(() => {
-                calc = new Calculator((value=>{rsltOperation = value}), (value=>{rsltCurrentNumber = value}));
-            });
             describe('- Integer numbers', () => {
+                beforeEach(() => {
+                    calc = new Calculator((value=>{rsltOperation = value}), (value=>{rsltCurrentNumber = value}));
+                });
                 [
                     { number1: '1', operator: '+', number2: '1', rsltCurrentNumber: '2', rsltOperation: '1+1=' },
                     { number1: '1', operator: '-', number2: '1', rsltCurrentNumber: '0', rsltOperation: '1-1=' },
@@ -137,24 +137,38 @@ describe(`Tests Calculator`, () => {
                 });
             });
             describe('- Decimal numbers', () => {
-                [
-                    { number1: '0.1', operator: '+', number2: '0.2', rsltCurrentNumber: '0.3', rsltOperation: '0.1+0.2=' },
-                    { number1: '0.1', operator: '-', number2: '0.2', rsltCurrentNumber: '-0.1', rsltOperation: '0.1-0.2=' },
-                    { number1: '0.1', operator: '*', number2: '0.1', rsltCurrentNumber: '0.01', rsltOperation: '0.1*0.1=' },
-                    { number1: '0.1', operator: '/', number2: '0.2', rsltCurrentNumber: '0.5', rsltOperation: '0.1/0.2=' },
-                ].forEach(item => {
-                    it(`${item.number1} ${item.operator} ${item.number2} => ${item.rsltCurrentNumber}`, () => {
-                        calc.introduceNumber(item.number1[0]);
+                beforeEach(() => {
+                    calc = new Calculator((value=>{rsltOperation = value}), (value=>{rsltCurrentNumber = value}));
+                });
+                describe('- OK:', () => {
+                    [
+                        { number1: '0.1', operator: '+', number2: '0.2', rsltCurrentNumber: '0.3', rsltOperation: '0.1+0.2=' },
+                        { number1: '0.1', operator: '-', number2: '0.2', rsltCurrentNumber: '-0.1', rsltOperation: '0.1-0.2=' },
+                        { number1: '0.1', operator: '*', number2: '0.1', rsltCurrentNumber: '0.01', rsltOperation: '0.1*0.1=' },
+                        { number1: '0.1', operator: '/', number2: '0.2', rsltCurrentNumber: '0.5', rsltOperation: '0.1/0.2=' },
+                    ].forEach(item => {
+                        it(`${item.number1} ${item.operator} ${item.number2} => ${item.rsltCurrentNumber}`, () => {
+                            calc.introduceNumber(item.number1[0]);
+                            calc.introduceCommaSign();
+                            calc.introduceNumber(item.number1[2]);
+                            calc.introduceOperator(item.operator);
+                            calc.introduceNumber(item.number2[0]);
+                            calc.introduceCommaSign();
+                            calc.introduceNumber(item.number2[2]);
+                            calc.introduceOperator('=');
+                            console.log('rsltCurrentNumber: ', rsltCurrentNumber);
+                            expect(rsltCurrentNumber).toBe(item.rsltCurrentNumber);
+                            expect(rsltOperation).toBe(item.rsltOperation);
+                        });
+                    });
+                });
+                describe('- KO:', () => {
+                    it('Use comma sign without typing 0 before: INPUTS = [ "Comma(,)", 2, "=" ] ==> OUTPUTS: [ "0.2=", 0.2 ]', () => {
                         calc.introduceCommaSign();
-                        calc.introduceNumber(item.number1[2]);
-                        calc.introduceOperator(item.operator);
-                        calc.introduceNumber(item.number2[0]);
-                        calc.introduceCommaSign();
-                        calc.introduceNumber(item.number2[2]);
+                        calc.introduceNumber('2');
                         calc.introduceOperator('=');
-                        console.log('rsltCurrentNumber: ', rsltCurrentNumber);
-                        expect(rsltCurrentNumber).toBe(item.rsltCurrentNumber);
-                        expect(rsltOperation).toBe(item.rsltOperation);
+                        expect(rsltCurrentNumber).toBe('0.2');
+                        expect(rsltOperation).toBe('0.2=');
                     });
                 });
             });
