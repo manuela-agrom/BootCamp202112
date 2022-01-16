@@ -105,6 +105,7 @@ class Calculator {
             default:
                 break;
         }
+        this.#accumulated = parseFloat(this.#accumulated.toPrecision(15));
     }
     add(number1, number2) {
         return number1 + number2;
@@ -136,20 +137,21 @@ class Calculator {
         this.printOperation();
         this.printCurrentNumber();
     }
-    /* TODO:
     introduceCommaSign() {
         if (this.#currentNumber.includes('.')) {
             console.warn('Comma sign is already present.');
             return;
         }
-        if (this.#currentNumber === '0') {
-            this.#currentNumber = '0.';
-        } else if (!this.#currentNumber.includes('.')) {
-            this.#currentNumber += '.'
+        if (this.#operationHistory === '' || this.checkIfOperator(this.#operationHistory.slice(-1))) {
+            this.#operationHistory += '0.';
+        } else {
+            this.#operationHistory += '.';
         }
-        this.#operationHistory += this.#currentNumber;
+        this.#currentNumber += '.';
         this.printCurrentNumber();
+        this.printOperation();
     }
+    /* TODO:
     changeSign() {
         this.#currentNumber = (-this.#currentNumber).toString();
         this.#operationHistory = this.#currentNumber;
@@ -183,7 +185,7 @@ class Calculator {
     getLastCompleteTypedNumber() {
         let lastNumber = '';
         for(let i = this.#operationHistory.length-2; i>=0; i--) {
-            if (!this.checkIfNumber(this.#operationHistory[i])) {
+            if (this.checkIfOperator(this.#operationHistory[i]) && this.#operationHistory[i] !== '.') {
                 break;
             }
             lastNumber = this.#operationHistory[i] + lastNumber;

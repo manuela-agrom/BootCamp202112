@@ -221,6 +221,7 @@ describe(`Tests Calculator`, () => {
                     expect(rsltCurrentNumber).toBe('1');
                     expect(rsltOperation).toBe('2-1=');
                 });
+                // TODO: comprobar que se borra la coma decimal
             });
         });
     });

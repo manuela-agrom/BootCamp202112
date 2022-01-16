@@ -34,8 +34,7 @@
             <input type="text" id="changeSign" class="key" value="">
             <!-- TODO: <input type="text" id="changeSign" class="key" value="+/-"> -->
             <input type="text" class="key  number" value="0">
-            <input type="text" id="comma" class="key" value="">
-            <!-- <input type="text" id="comma" class="key" value=","> -->
+            <input type="text" id="comma" class="key" value=",">
             <input type="text" class="key operator" value="=">
         </section>
     </section>
@@ -50,8 +49,8 @@
             const commaSign = document.querySelector('#comma');
             const changeSign = document.querySelector('#changeSign');
             let calculator = new Calculator(
-                (value => operation.textContent = value.replace(/\./, ',')),
-                (value => currentNumber.textContent = value.replace('/\./', ','))
+                (value => operation.textContent = value.replace(/\./g, ',')),
+                (value => currentNumber.textContent = value.replace(/\./g, ','))
             );
             document.querySelectorAll('.number').forEach(keyNumber => keyNumber.addEventListener('click', ev => {
                 calculator.introduceNumber(ev.target.value);
@@ -66,10 +65,10 @@
             clearOne.addEventListener('click', ev => {
                 calculator.clearOne();
             });
-            /* TODO:
             commaSign.addEventListener('click', ev => {
                 calculator.introduceCommaSign();
             });
+            /* TODO:
             changeSign.addEventListener('click', ev => {
                 calculator.changeSign();
             });
