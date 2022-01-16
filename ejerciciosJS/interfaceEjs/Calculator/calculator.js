@@ -126,7 +126,11 @@ class Calculator {
                 this.#operator = this.#lastOperator;
             }
         } else {
-            this.#currentNumber = this.#currentNumber.slice(0, -1);
+            if (this.#currentNumber.length == 1) {
+                this.#currentNumber = '0';
+            } else {
+                this.#currentNumber = this.#currentNumber.slice(0, -1);
+            }
         }
         this.#operationHistory = this.#operationHistory.slice(0, -1);
         this.printOperation();

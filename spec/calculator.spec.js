@@ -94,50 +94,73 @@ describe(`Tests Calculator`, () => {
             });
         })
     });
-    describe('- Actions concatenated:', () => {
-        describe('- OK:', () => {
-            it('Number with more than one digit', () => {
+    describe('- Nested actions:', () => {
+        it('Number with more than one digit', () => {
+            calc = new Calculator((value=>{rsltOperation = value}), (value=>{rsltCurrentNumber = value}));
+            calc.introduceNumber('1');
+            expect(rsltCurrentNumber).toBe('1');
+            expect(rsltOperation).toBe('1');
+            calc.introduceNumber('2');
+            expect(rsltCurrentNumber).toBe('12');
+            expect(rsltOperation).toBe('12');
+            calc.introduceNumber('3');
+            expect(rsltCurrentNumber).toBe('123');
+            expect(rsltOperation).toBe('123');
+            calc.introduceNumber('4');
+            expect(rsltCurrentNumber).toBe('1234');
+            expect(rsltOperation).toBe('1234');
+            calc.introduceNumber('5');
+            expect(rsltCurrentNumber).toBe('12345');
+            expect(rsltOperation).toBe('12345');
+        });
+        describe('- Simple operations:', () => {
+            beforeEach(() => {
                 calc = new Calculator((value=>{rsltOperation = value}), (value=>{rsltCurrentNumber = value}));
-                calc.introduceNumber('1');
-                expect(rsltCurrentNumber).toBe('1');
-                expect(rsltOperation).toBe('1');
-                calc.introduceNumber('2');
-                expect(rsltCurrentNumber).toBe('12');
-                expect(rsltOperation).toBe('12');
-                calc.introduceNumber('3');
-                expect(rsltCurrentNumber).toBe('123');
-                expect(rsltOperation).toBe('123');
-                calc.introduceNumber('4');
-                expect(rsltCurrentNumber).toBe('1234');
-                expect(rsltOperation).toBe('1234');
-                calc.introduceNumber('5');
-                expect(rsltCurrentNumber).toBe('12345');
-                expect(rsltOperation).toBe('12345');
             });
-            describe('- Simple operation:', () => {
-                beforeEach(() => {
-                    calc = new Calculator((value=>{rsltOperation = value}), (value=>{rsltCurrentNumber = value}));
-                });
-                describe('Integer numbers', () => {
-                    [
-                        { number1: '1', operator: '+', number2: '1', rsltCurrentNumber: '2', rsltOperation: '1+1=' },
-                        { number1: '1', operator: '-', number2: '1', rsltCurrentNumber: '0', rsltOperation: '1-1=' },
-                        { number1: '1', operator: '*', number2: '1', rsltCurrentNumber: '1', rsltOperation: '1*1=' },
-                        { number1: '4', operator: '/', number2: '2', rsltCurrentNumber: '2', rsltOperation: '4/2=' },
-                    ].forEach(item => {
-                        it(`${item.number1} ${item.operator} ${item.number2} => ${item.rsltCurrentNumber}`, () => {
-                            calc.introduceNumber(item.number1);
-                            calc.introduceOperator(item.operator);
-                            calc.introduceNumber(item.number2);
-                            calc.introduceOperator('=');
-                            console.log('rsltCurrentNumber: ', rsltCurrentNumber);
-                            expect(rsltCurrentNumber).toBeDefined();
-                            expect(rsltCurrentNumber).toBe(item.rsltCurrentNumber);
-                            expect(rsltOperation).toBe(item.rsltOperation);
-                        });
+            describe('- Integer numbers', () => {
+                [
+                    { number1: '1', operator: '+', number2: '1', rsltCurrentNumber: '2', rsltOperation: '1+1=' },
+                    { number1: '1', operator: '-', number2: '1', rsltCurrentNumber: '0', rsltOperation: '1-1=' },
+                    { number1: '1', operator: '*', number2: '1', rsltCurrentNumber: '1', rsltOperation: '1*1=' },
+                    { number1: '4', operator: '/', number2: '2', rsltCurrentNumber: '2', rsltOperation: '4/2=' },
+                ].forEach(item => {
+                    it(`${item.number1} ${item.operator} ${item.number2} => ${item.rsltCurrentNumber}`, () => {
+                        calc.introduceNumber(item.number1);
+                        calc.introduceOperator(item.operator);
+                        calc.introduceNumber(item.number2);
+                        calc.introduceOperator('=');
+                        console.log('rsltCurrentNumber: ', rsltCurrentNumber);
+                        expect(rsltCurrentNumber).toBeDefined();
+                        expect(rsltCurrentNumber).toBe(item.rsltCurrentNumber);
+                        expect(rsltOperation).toBe(item.rsltOperation);
                     });
                 });
-                });
+            });
+        });
+        describe('- Nested  operations', () => {
+            it('6 + 4 * 5 / 25 - 9 = -7', () => {
+                calc = new Calculator((value=>{rsltOperation = value}), (value=>{rsltCurrentNumber = value}));
+                calc.introduceNumber('6');
+                calc.introduceOperator('+');
+                calc.introduceNumber('4');
+                expect(rsltCurrentNumber).toBe('4');
+                expect(rsltOperation).toBe('6+4');
+                calc.introduceOperator('*');
+                calc.introduceNumber('5');
+                expect(rsltCurrentNumber).toBe('5');
+                expect(rsltOperation).toBe('6+4*5');
+                calc.introduceOperator('/');
+                calc.introduceNumber('2');
+                calc.introduceNumber('5');
+                expect(rsltCurrentNumber).toBe('25');
+                expect(rsltOperation).toBe('6+4*5/25');
+                calc.introduceOperator('-');
+                calc.introduceNumber('9');
+                expect(rsltCurrentNumber).toBe('9');
+                expect(rsltOperation).toBe('6+4*5/25-9');
+                calc.introduceOperator('=');
+                expect(rsltCurrentNumber).toBe('-7');
+                expect(rsltOperation).toBe('6+4*5/25-9=');
             });
         });
     });
