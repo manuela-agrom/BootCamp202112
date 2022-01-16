@@ -3,6 +3,8 @@ class Calculator {
     #operator;
     #operationHistory;
     #currentNumber;
+    #lastAccumulated;
+    #lastOperator;
     constructor(funcOperation, funcCurrentNumber) {
         if (funcOperation === undefined || !funcCurrentNumber === undefined) {
             throw new Error('To use the calculator it is necessary to pass the two printer functions for the entire operation and the current number, respectively.')
@@ -20,7 +22,9 @@ class Calculator {
     }
     initialize() {
         this.#accumulated = 0;
+        this.#lastAccumulated;
         this.#operator = '+';
+        this.#lastOperator;
         this.#operationHistory = '';
         this.#currentNumber = '0';
     }
@@ -52,11 +56,15 @@ class Calculator {
         if(operator === undefined) {
             throw new Error('Operator argument is missing.')
         }
-        if (!/^(\+|\-|\*|\/|\=)$/.test(operator)) {
+        if (!this.checkIfOperator(operator)) {
             console.error('To calculate it is necessary to use operators like "+","-", "*", "/" or equal sign "="');
             return;
         }
-        if (!this.#currentNumber) {
+        if (this.#currentNumber === '0') {
+            if (this.#operationHistory !== '') {
+                this.clearOne();
+                this.introduceOperator(operator);
+            }
             return;
         }
         this.operate();
@@ -64,18 +72,19 @@ class Calculator {
         this.printOperation();
         if (operator === '=') {
             this.#currentNumber = this.#accumulated.toString();
-            this.printCurrentNumber();
             this.#operationHistory = this.#accumulated.toString();
             this.#accumulated = 0;
             this.#operator = '+';
         } else {
             this.#currentNumber = '0';
-            this.printCurrentNumber();
             this.#operator = operator;
         }
+        this.printCurrentNumber();
     }
     operate() {
         const currentNumber = parseFloat(this.#currentNumber);
+        this.#lastAccumulated = this.#accumulated;
+        this.#lastOperator = this.#operator;
         console.log('operate with: ', this.#accumulated, currentNumber);
         switch (this.#operator) {
             case '+':
@@ -106,19 +115,27 @@ class Calculator {
     divide(number1, number2) {
         return number1/number2;
     }
-    /* TODO:
-    clearOne(n) {
-        this.#operationHistory = this.#operationHistory.slice(0,-1);
+    clearOne() {
+        if (this.#currentNumber === '0') {
+            if (this.checkIfOperator(this.#operationHistory.slice(-1))) {
+                this.#currentNumber = this.getLastCompleteTypedNumber();
+                this.#accumulated = this.#lastAccumulated;
+                this.#operator = this.#lastOperator;
+            }
+        } else {
+            this.#currentNumber = this.#currentNumber.slice(0, -1);
+        }
+        this.#operationHistory = this.#operationHistory.slice(0, -1);
         this.printOperation();
-        this.#currentNumber = this.#currentNumber.slice(0,-1)
         this.printCurrentNumber();
     }
+    /* TODO:
     introduceCommaSign() {
         if (this.#currentNumber.includes('.')) {
             console.warn('Comma sign is already present.');
             return;
         }
-        if (!this.#currentNumber) {
+        if (this.#currentNumber === '0') {
             this.#currentNumber = '0.';
         } else if (!this.#currentNumber.includes('.')) {
             this.#currentNumber += '.'
@@ -149,5 +166,21 @@ class Calculator {
             return false;
         }
         return true;
+    }
+    checkIfOperator(key) {
+        if (!/^(\+|\-|\*|\/|\=)$/.test(key)) {
+            return false;
+        }
+        return true;
+    }
+    getLastCompleteTypedNumber() {
+        let lastNumber = '';
+        for(let i = this.#operationHistory.length-2; i>=0; i--) {
+            if (!this.checkIfNumber(this.#operationHistory[i])) {
+                break;
+            }
+            lastNumber = this.#operationHistory[i] + lastNumber;
+        }
+        return lastNumber;
     }
 }
