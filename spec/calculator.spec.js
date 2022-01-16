@@ -123,8 +123,10 @@ describe(`Tests Calculator`, () => {
                     { number1: '1', operator: '-', number2: '1', rsltCurrentNumber: '0', rsltOperation: '1-1=' },
                     { number1: '1', operator: '*', number2: '1', rsltCurrentNumber: '1', rsltOperation: '1*1=' },
                     { number1: '4', operator: '/', number2: '2', rsltCurrentNumber: '2', rsltOperation: '4/2=' },
+                    { number1: '4', operator: '/', number2: '0', rsltCurrentNumber: 'Infinity', rsltOperation: '4/0=' },
+                    // TODO: { number1: '0', operator: '/', number2: '0', rsltCurrentNumber: 'NaN', rsltOperation: '0/0=' },
                 ].forEach(item => {
-                    it(`${item.number1} ${item.operator} ${item.number2} => ${item.rsltCurrentNumber}`, () => {
+                    fit(`${item.number1} ${item.operator} ${item.number2} => ${item.rsltCurrentNumber}`, () => {
                         calc.introduceNumber(item.number1);
                         calc.introduceOperator(item.operator);
                         calc.introduceNumber(item.number2);
@@ -146,6 +148,8 @@ describe(`Tests Calculator`, () => {
                         { number1: '0.1', operator: '-', number2: '0.2', rsltCurrentNumber: '-0.1', rsltOperation: '0.1-0.2=' },
                         { number1: '0.1', operator: '*', number2: '0.1', rsltCurrentNumber: '0.01', rsltOperation: '0.1*0.1=' },
                         { number1: '0.1', operator: '/', number2: '0.2', rsltCurrentNumber: '0.5', rsltOperation: '0.1/0.2=' },
+                        { number1: '0.1', operator: '/', number2: '0.0', rsltCurrentNumber: 'Infinity', rsltOperation: '0.1/0.0=' },
+                        { number1: '0.0', operator: '/', number2: '0.0', rsltCurrentNumber: 'NaN', rsltOperation: '0.0/0.0=' },
                     ].forEach(item => {
                         it(`${item.number1} ${item.operator} ${item.number2} => ${item.rsltCurrentNumber}`, () => {
                             calc.introduceNumber(item.number1[0]);
@@ -257,7 +261,6 @@ describe(`Tests Calculator`, () => {
                     expect(rsltCurrentNumber).toBe('1');
                     expect(rsltOperation).toBe('2-1=');
                 });
-                // TODO: comprobar que se borra la coma decimal
                 it('Erase comma sign and continue: INPUTS = [ 2, "Comma(,)", "Erase", 1, "Subtract(-)", 2, 1, "Comma(,)", 5, "=" ] ==> OUTPUTS: [ "21-21.5=", -0.5 ]', () => {
                     calc.introduceNumber('2');
                     calc.introduceCommaSign();

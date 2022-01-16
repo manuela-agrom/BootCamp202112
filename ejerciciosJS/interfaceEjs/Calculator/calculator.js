@@ -63,12 +63,14 @@ class Calculator {
             console.error('To calculate it is necessary to use operators like "+","-", "*", "/" or equal sign "="');
             return;
         }
-        if (this.#currentNumber === '0') {
-            if (this.#operationHistory !== '') {
-                this.clearOne();
-                this.introduceOperator(operator);
+        if (operator != '=') {
+            if (this.#currentNumber === '0') {
+                if (this.#operationHistory !== '') {
+                    this.clearOne();
+                    this.introduceOperator(operator);
+                }
+                return;
             }
-            return;
         }
         this.operate();
         this.#operationHistory += operator;
