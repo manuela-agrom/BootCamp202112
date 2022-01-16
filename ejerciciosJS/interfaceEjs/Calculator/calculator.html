@@ -10,32 +10,30 @@
     <h1>Calculator</h1>
     <section class="calculator">
         <section id="screen">
-            <output id="operation" class="operation"></output>
-            <output id="currentNumber" class="currentNumber"></output>
+            <output id="operation" class="operation  dark-background"></output>
+            <output id="currentNumber" class="currentNumber dark-background"></output>
         </section>
         <section id="keyboard">
-            <input type="text" id="ce" class="key" value="">
-            <!-- <input type="text" id="ce" class="key" value="CE"> -->
-            <input type="text" id="c" class="key" value="C">
-            <input type="text" id="clearOne" class="key" value="<==">
-            <input type="text" class="key operator" value="/">
+            <!-- TODO: <input type="text" id="ce" class="key erase dark-background" value="CE"> -->
+            <input type="text" id="c" class="key erase dark-background" value="C">
+            <input type="text" id="clearOne" class="key erase dark-background" value="<==">
+            <input type="text" class="key operator dark-background" value="/">
             <input type="text" class="key number" value="7">
             <input type="text" class="key number" value="8">
             <input type="text" class="key  number" value="9">
-            <input type="text" class="key operator" value="*">
+            <input type="text" class="key operator dark-background" value="*">
             <input type="text" class="key  number" value="4">
             <input type="text" class="key  number" value="5">
             <input type="text" class="key  number" value="6">
-            <input type="text" class="key operator" value="-">
+            <input type="text" class="key operator dark-background" value="-">
             <input type="text" class="key  number" value="1">
             <input type="text" class="key  number" value="2">
             <input type="text" class="key  number" value="3">
-            <input type="text" class="key operator" value="+">
-            <input type="text" id="changeSign" class="key" value="">
-            <!-- TODO: <input type="text" id="changeSign" class="key" value="+/-"> -->
-            <input type="text" class="key  number" value="0">
+            <input type="text" class="key operator dark-background" value="+">
+            <!-- TODO: <input type="text" id="change-sign" class="key" value="+/-"> -->
+            <input type="text" id="zero" class="key number" value="0">
             <input type="text" id="comma" class="key" value=",">
-            <input type="text" class="key operator" value="=">
+            <input type="text" class="key operator equal dark-background" value="=">
         </section>
     </section>
     <script src="./calculator.js"></script>
@@ -47,7 +45,7 @@
             const clearNumber = document.querySelector('#ce');
             const clearOne = document.querySelector('#clearOne');
             const commaSign = document.querySelector('#comma');
-            const changeSign = document.querySelector('#changeSign');
+            const changeSign = document.querySelector('#change-sign');
             let calculator = new Calculator(
                 (value => operation.textContent = value.replace(/\./g, ',')),
                 (value => currentNumber.textContent = value.replace(/\./g, ','))
