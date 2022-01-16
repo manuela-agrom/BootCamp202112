@@ -83,7 +83,7 @@ describe(`Tests Calculator`, () => {
                     expect(() => calc.introduceOperator()).toThrow();
                 });
                 describe('- Wrong argument:', () => {
-                    [0, 8, '0', '8', '', '%', '^', '!', '#', '$', '++', '--', '**', '//'].forEach(item => {
+                    [0, 8, '0', '8', ',', '', '%', '^', '!', '#', '$', '++', '--', '**', '//'].forEach(item => {
                         it(`${typeof item} ${item}`, () => {
                             spyOn(window.console, 'error');
                             calc.introduceOperator(item);
@@ -131,6 +131,28 @@ describe(`Tests Calculator`, () => {
                         calc.introduceOperator('=');
                         console.log('rsltCurrentNumber: ', rsltCurrentNumber);
                         expect(rsltCurrentNumber).toBeDefined();
+                        expect(rsltCurrentNumber).toBe(item.rsltCurrentNumber);
+                        expect(rsltOperation).toBe(item.rsltOperation);
+                    });
+                });
+            });
+            describe('- Decimal numbers', () => {
+                [
+                    { number1: '0.1', operator: '+', number2: '0.2', rsltCurrentNumber: '0.3', rsltOperation: '0.1+0.2=' },
+                    { number1: '0.1', operator: '-', number2: '0.2', rsltCurrentNumber: '-0.1', rsltOperation: '0.1-0.2=' },
+                    { number1: '0.1', operator: '*', number2: '0.1', rsltCurrentNumber: '0.01', rsltOperation: '0.1*0.1=' },
+                    { number1: '0.1', operator: '/', number2: '0.2', rsltCurrentNumber: '0.5', rsltOperation: '0.1/0.2=' },
+                ].forEach(item => {
+                    it(`${item.number1} ${item.operator} ${item.number2} => ${item.rsltCurrentNumber}`, () => {
+                        calc.introduceNumber(item.number1[0]);
+                        calc.introduceCommaSign();
+                        calc.introduceNumber(item.number1[2]);
+                        calc.introduceOperator(item.operator);
+                        calc.introduceNumber(item.number2[0]);
+                        calc.introduceCommaSign();
+                        calc.introduceNumber(item.number2[2]);
+                        calc.introduceOperator('=');
+                        console.log('rsltCurrentNumber: ', rsltCurrentNumber);
                         expect(rsltCurrentNumber).toBe(item.rsltCurrentNumber);
                         expect(rsltOperation).toBe(item.rsltOperation);
                     });
