@@ -49,6 +49,9 @@ class Calculator {
         }
         this.#currentNumber += number;
         this.printCurrentNumber();
+        if (this.#operationHistory === '0') {
+            this.#operationHistory = '';
+        }
         this.#operationHistory += number;
         this.printOperation();
     }
