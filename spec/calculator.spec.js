@@ -162,6 +162,66 @@ describe(`Tests Calculator`, () => {
                 expect(rsltCurrentNumber).toBe('-7');
                 expect(rsltOperation).toBe('6+4*5/25-9=');
             });
+            describe('- Erase digits', () => {
+                beforeEach(() => {
+                    calc = new Calculator((value=>{rsltOperation = value}), (value=>{rsltCurrentNumber = value}));
+                });
+                it('Erase 1 number and continue: INPUTS = [ 1, 2, 3,"Erase", "Subtract(-)", 2, "=" ] ==> OUTPUTS: [ "12-2=", 10 ]', () => {
+                    calc.introduceNumber('1');
+                    calc.introduceNumber('2');
+                    calc.introduceNumber('3');
+                    calc.clearOne();
+                    expect(rsltCurrentNumber).toBe('12');
+                    expect(rsltOperation).toBe('12');
+                    calc.introduceOperator('-');
+                    calc.introduceNumber('2');
+                    calc.introduceOperator('=');
+                    expect(rsltCurrentNumber).toBe('10');
+                    expect(rsltOperation).toBe('12-2=');
+                });
+                it('Erase 1 operator once and continue: INPUTS = [ 1, 2, "Add(+)","Erase", "Subtract(-)", 2, "=" ] ==> OUTPUTS: [ "12-2=", 10 ]', () => {
+                    calc.introduceNumber('1');
+                    calc.introduceNumber('2');
+                    calc.introduceOperator('+');
+                    calc.clearOne();
+                    expect(rsltCurrentNumber).toBe('12');
+                    expect(rsltOperation).toBe('12');
+                    calc.introduceOperator('-');
+                    calc.introduceNumber('2');
+                    calc.introduceOperator('=');
+                    expect(rsltCurrentNumber).toBe('10');
+                    expect(rsltOperation).toBe('12-2=');
+                });
+                it('Change the operator twice and continue: INPUTS = [ 1, 2, "Add(+)", "Subtract(-)", "Multiply(*), 2, "=" ] ==> OUTPUTS: [ "12*2=", 24 ]', () => {
+                    calc.introduceNumber('1');
+                    calc.introduceNumber('2');
+                    calc.introduceOperator('+');
+                    calc.introduceOperator('-');
+                    calc.introduceOperator('*');
+                    calc.introduceNumber('2');
+                    calc.introduceOperator('=');
+                    expect(rsltCurrentNumber).toBe('24');
+                    expect(rsltOperation).toBe('12*2=');
+
+                });
+                it('Erase the result of the last operation and continue: INPUTS = [ 1, "Add(+)", 2, "=", "Erase",  2, "Subtract(-)", 1, "=" ] ==> OUTPUTS: [ "2-1=", 1 ]', () => {
+                    calc.introduceNumber('1');
+                    calc.introduceOperator('+');
+                    calc.introduceNumber('2');
+                    calc.introduceOperator('=');
+                    expect(rsltCurrentNumber).toBe('3');
+                    expect(rsltOperation).toBe('1+2=');
+                    calc.clearOne();
+                    expect(rsltCurrentNumber).toBe('0');
+                    expect(rsltOperation).toBe('');
+                    calc.introduceNumber('2');
+                    calc.introduceOperator('-');
+                    calc.introduceNumber('1');
+                    calc.introduceOperator('=');
+                    expect(rsltCurrentNumber).toBe('1');
+                    expect(rsltOperation).toBe('2-1=');
+                });
+            });
         });
     });
 });
