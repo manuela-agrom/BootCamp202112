@@ -126,7 +126,7 @@ describe(`Tests Calculator`, () => {
                     { number1: '4', operator: '/', number2: '0', rsltCurrentNumber: 'Infinity', rsltOperation: '4/0=' },
                     // TODO: { number1: '0', operator: '/', number2: '0', rsltCurrentNumber: 'NaN', rsltOperation: '0/0=' },
                 ].forEach(item => {
-                    fit(`${item.number1} ${item.operator} ${item.number2} => ${item.rsltCurrentNumber}`, () => {
+                    it(`${item.number1} ${item.operator} ${item.number2} => ${item.rsltCurrentNumber}`, () => {
                         calc.introduceNumber(item.number1);
                         calc.introduceOperator(item.operator);
                         calc.introduceNumber(item.number2);
