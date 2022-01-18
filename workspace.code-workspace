@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "angular"
+		},
+		{
+			"path": "..\\MOCKWebServer"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "angular"
+	}
+}

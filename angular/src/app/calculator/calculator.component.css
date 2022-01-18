@@ -1,46 +1,55 @@
 :root {
-  --dark-grey: #90a4ae;
   --light-grey: #c1d5e0;
-  --medium-grey: #c1d5e0;
+  --medium-grey: #90a4ae;
+  --dark-grey: #29434e;
+  --black: #252525;
+  --white: #fff;
+  --light-blue: #768fff;
   --space: 10px;
 }
-
-html, body, div, h1, output, input, section{
+h1, output, input, section{
   margin: 0;
   padding: 0;
   border: 0;
   font-size: 100%;
   font: inherit;
-  /* vertical-align: baseline;  */
-  background-color: rgb(89, 89, 89);
+  box-sizing: border-box;
 }
 
-/* #calculator {} */
+#calculator {
+  border: 1px solid var(--light-grey);
+  border-radius: var(--radius);
+}
 
 #keyboard {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: auto auto auto auto;
   gap: var(--space);
-
+  padding: var(--space);
 }
 
 #screen {
-  border: 2px solid var(--dark-grey);
+  border: none;
   padding: var(--space);
   display: grid;
   grid-template-rows: 2;
-  padding: var(--space);
-  /* font-weight: bold;
-  font-size: large; */
+  background-color: var(--black);
+  text-align: right;
+  font-size: 2rem;
+  height: 6rem;
 }
-
-/* #operation {} */
 
 .key {
   /* background-color: var(--light-grey); */
-  background-color: grey;
+  /* background-color: grey;
   font-weight: bold;
-  font-size: large;
+  font-size: large; */
+    background-color: var(--light-grey, #c1d5e0);
+    border-radius: var(--radius);
+    border: 1px solid var(--black,#252525);
+    text-align: center;
+    font-size: 1.5rem;
+    height: 2.5rem;
 }
 
 .key:hover {

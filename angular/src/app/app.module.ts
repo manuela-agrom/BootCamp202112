@@ -13,6 +13,9 @@ import { SecurityModule } from './security';
 import { DemosComponent } from './demos/demos.component';
 import { CalculatorComponent } from './calculator/calculator.component';
 import { DinamicoComponent } from './dinamico/dinamico.component';
+import { FormularioComponent } from './formulario/formulario.component';
+import { ContactosModule } from './contactos/contactos.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,7 @@ import { DinamicoComponent } from './dinamico/dinamico.component';
     DemosComponent,
     CalculatorComponent,
     DinamicoComponent,
+    FormularioComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +35,8 @@ import { DinamicoComponent } from './dinamico/dinamico.component';
     MyCoreModule,
     CommonServicesModule,
     MainModule,
+    ContactosModule,
+    HttpClientModule,
   ],
   providers: [
     LoggerService,
