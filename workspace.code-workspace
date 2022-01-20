@@ -5,9 +5,10 @@
 		},
 		{
 			"path": "..\\MOCKWebServer"
+		},
+		{
+			"path": "pizza-shop"
 		}
 	],
-	"settings": {
-		"liveServer.settings.multiRootWorkspaceName": "angular"
-	}
+	"settings": {}
 }
